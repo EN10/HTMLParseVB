@@ -3,18 +3,18 @@ Imports HtmlAgilityPack
 Partial Class _Default
     Inherits System.Web.UI.Page
 
-    Protected Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Dim url As String = "https://en.wikipedia.org/wiki/Gallery_of_sovereign_state_flags"
+    Dim doc As HtmlDocument = New HtmlWeb().Load(url)
+    Dim nodes As HtmlNodeCollection = doc.DocumentNode.SelectNodes("//img")
 
-        Dim url = "https://github.com/EN10/KerasInception"
-        Dim doc As HtmlDocument = New HtmlWeb().Load(url)
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
-        Dim nodes = doc.DocumentNode.SelectNodes("//img")
+        Session("Flag") += 1
+        Label1.Text = Session("Flag")
 
-        Dim size = nodes.Count
-        Dim node = nodes.ElementAt(4)
-
+        Dim node = nodes.ElementAt(Session("Flag"))
         Dim src = node.GetAttributeValue("src", "")
-        Label1.Text = src
+        Image1.ImageUrl = src
 
     End Sub
 End Class
